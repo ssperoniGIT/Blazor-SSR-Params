@@ -1,0 +1,17 @@
+﻿
+
+<CascadingValue Name="InRoutes" Value="RoutesValue">
+
+    <Router AppAssembly="typeof(Program).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        </Found>
+    </Router>
+
+</CascadingValue>
+
+
+@code {
+    private string RoutesValue {get; set;} = "This is set in Routes.razor";
+}

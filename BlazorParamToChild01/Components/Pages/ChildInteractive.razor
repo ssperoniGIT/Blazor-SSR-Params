@@ -1,0 +1,31 @@
+﻿@rendermode @(new InteractiveServerRenderMode(prerender: false))
+
+
+<div style="background-color:antiquewhite">
+
+    <h4>-------------- Interactive component inside Home Page--------------</h4>
+    <p>Cascading Parameter set in Routes.razor = @RoutesValue</p>
+    <p>Cascading Parameter (UserID) set in Program.cs = @userID</p>
+    <br />
+    <p role="status">Current count: @currentCount</p>
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <br />
+    <h3>----------------------------------------------------</h3>
+</div>
+
+
+@code {
+
+    [CascadingParameter(Name = "InRoutes")]
+    protected string? RoutesValue { get; set; }
+
+    [CascadingParameter(Name = "UserID")]
+    protected string? userID { get; set; }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

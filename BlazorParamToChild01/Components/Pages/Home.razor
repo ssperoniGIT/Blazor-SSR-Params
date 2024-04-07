@@ -1,0 +1,77 @@
+﻿@page "/"
+
+<div>
+    <p>
+        This is a Blazor Static SSR project, with available interactive components. It uses:
+    </p>
+    <p>
+        builder.Services.AddRazorComponents()
+        .AddInteractiveServerComponents();
+    </p>
+
+    <p>
+        The requirements are: The pages are all non-interactive (EditForms with submit). The project cannot have globally available interactivity (such as Blazor Server).
+    </p>
+    <p>
+        On many pages, we want to include an interactive component.
+    </p>
+
+    <p>
+        This test page is attempting to determine how to send a parameter (UserID) to the interactive components.
+    </p>
+
+    <p>
+        In this example, the child component is called: 'ChildInteractive'.  
+    </p>
+    <p>
+       When a noninteractive page includes an interactive componant, Blazor will not let you use the standard method of including a parameter such as:  ChildInteractive userid="aaa" ChildInteractive.
+    </p>
+    <p>
+       The solution seems to be that Cascading Parameters can be set in Program.cs that are available to all components, using:   
+    </p>
+    <p>
+        builder.Services.AddCascadingValue("UserID", sp => (string)"Initial value, set in Program.cs");
+    </p>
+    <p>
+        (BTW, in a Static SSR project, Cascading Parameters set in Routes.razor are only available to non-interactive components.)   
+    </p>
+    <br />
+
+    <p>
+        My question is: once the cascading parameter is set using builder.Services.AddCascadingValue, how do you modify the value?
+        The use case is: all components (interactive and non-interactive) need to know the UserID. However, the UserID is not known until the user logs in.
+        Once the user logs in, the cascading parameter, UserID, needs to be updated.
+    </p>
+
+</div>
+<br />
+<br />
+
+
+<h5> Home Page (not interactive) </h5>
+
+<p>Cascading Parameter set in Routes.razor = @RoutesValue</p>
+<p>Cascading Parameter (UserID) set in Program.cs = @userID</p>
+<br />
+<br />
+
+<ChildInteractive></ChildInteractive>
+
+<br />
+<br />
+<br />
+<h5>Back in Home Page (not interactive) </h5>
+<br />
+<br />
+<br />
+
+
+ 
+@code {
+
+    [CascadingParameter(Name = "InRoutes")]
+    protected string? RoutesValue { get; set; }
+
+    [CascadingParameter(Name = "UserID")]
+    protected string? userID { get; set; }
+}
